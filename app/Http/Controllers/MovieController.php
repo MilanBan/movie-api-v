@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Movie;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Http\Requests\MovieRequest;
 
 class MovieController extends Controller
 {
@@ -12,9 +14,9 @@ class MovieController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return Movie::all();
     }
 
     /**
@@ -33,9 +35,9 @@ class MovieController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MovieRequest $request)
     {
-        //
+        return $movie = Movie::create($request->all());
     }
 
     /**
@@ -46,7 +48,7 @@ class MovieController extends Controller
      */
     public function show(Movie $movie)
     {
-        //
+        return $movie;
     }
 
     /**
@@ -67,9 +69,11 @@ class MovieController extends Controller
      * @param  \App\Movie  $movie
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Movie $movie)
+    public function update(MovieRequest $request, Movie $movie)
     {
-        //
+        $movie->update($request->all());
+
+        return $movie;
     }
 
     /**
@@ -80,6 +84,8 @@ class MovieController extends Controller
      */
     public function destroy(Movie $movie)
     {
-        //
+        $movie->delete();
+
+        return new JsonResponse(true);
     }
 }
