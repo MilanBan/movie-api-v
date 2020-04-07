@@ -16,7 +16,14 @@ class MovieController extends Controller
      */
     public function index(Request $request)
     {
-        return Movie::all();
+        $titleRequested = $request->input('title'); 
+        $skipRequested = $request->input('skip', 0);
+        $takeRequested = $request->input('take', Movie::count());
+
+        if($titleRequested){
+            return Movie::search($titleRequest, $skipRequested, $takeRequested);
+        }
+        return Movie::skip($skipRequested)->take($takeRequested)->get();
     }
 
     /**
